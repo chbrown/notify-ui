@@ -1,0 +1,16 @@
+{
+  "name": "flash-client",
+  "description": "Client-side helper for displaying flash messages",
+  "keywords": [
+    "browser",
+    "dom",
+    "flash",
+    "angular"
+  ],
+  "version": "0.0.0",
+  "homepage": "https://github.com/chbrown/flash-client",
+  "repository": "git://github.com/chbrown/flash-client.git",
+  "bugs": "https://github.com/chbrown/flash-client/issues",
+  "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
+  "license": "MIT"
+}

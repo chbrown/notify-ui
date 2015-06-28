@@ -7,7 +7,7 @@
     "flash",
     "angular"
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/chbrown/flash-client",
   "repository": "git://github.com/chbrown/flash-client.git",
   "bugs": "https://github.com/chbrown/flash-client/issues",

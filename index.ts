@@ -55,14 +55,14 @@ if (typeof window['angular'] !== 'undefined') {
 
       $flash(asyncResultPromise)
   */
-  window['angular'].module('flash-client', []).service('$flash', ($q) => {
+  window['angular'].module('flash-client', []).service('$flash', ['$q', function($q) {
     /**
     value can be a string or a promise
 
     default to a 3 second timeout, but allow permanent flashes by setting duration = null
     */
     var flash = new Flash();
-    return (value, duration: number = 3000) => {
+    return function(value, duration: number = 3000) {
       var flash_child = flash.addMessage('...');
       // for some reason, .finally() doesn't get the promise's value,
       // so we have to use .then(a, a)
@@ -76,5 +76,5 @@ if (typeof window['angular'] !== 'undefined') {
       // wrap value with .when() to support both strings and promises of strings
       $q.when(value).then(done, done);
     };
-  });
+  }]);
 }

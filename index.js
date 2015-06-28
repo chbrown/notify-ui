@@ -59,27 +59,27 @@ if (typeof window['angular'] !== 'undefined') {
   
         $flash(asyncResultPromise)
     */
-    window['angular'].module('flash-client', []).service('$flash', function ($q) {
-        /**
-        value can be a string or a promise
-    
-        default to a 3 second timeout, but allow permanent flashes by setting duration = null
-        */
-        var flash = new Flash();
-        return function (value, duration) {
-            if (duration === void 0) { duration = 3000; }
-            var flash_child = flash.addMessage('...');
-            // for some reason, .finally() doesn't get the promise's value,
-            // so we have to use .then(a, a)
-            var done = function (result) {
-                flash_child.textContent = result.toString();
-                // if duration is falsey (e.g., null or 0), leave the message permanently
-                if (duration) {
-                    setTimeout(function () { return flash.removeChild(flash_child); }, duration);
-                }
+    window['angular'].module('flash-client', []).service('$flash', ['$q', function ($q) {
+            /**
+            value can be a string or a promise
+        
+            default to a 3 second timeout, but allow permanent flashes by setting duration = null
+            */
+            var flash = new Flash();
+            return function (value, duration) {
+                if (duration === void 0) { duration = 3000; }
+                var flash_child = flash.addMessage('...');
+                // for some reason, .finally() doesn't get the promise's value,
+                // so we have to use .then(a, a)
+                var done = function (result) {
+                    flash_child.textContent = result.toString();
+                    // if duration is falsey (e.g., null or 0), leave the message permanently
+                    if (duration) {
+                        setTimeout(function () { return flash.removeChild(flash_child); }, duration);
+                    }
+                };
+                // wrap value with .when() to support both strings and promises of strings
+                $q.when(value).then(done, done);
             };
-            // wrap value with .when() to support both strings and promises of strings
-            $q.when(value).then(done, done);
-        };
-    });
+        }]);
 }

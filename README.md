@@ -1,6 +1,6 @@
-## flow-copy
+## notify-ui
 
-Client-side helper for displaying flash messages.
+Notifications library for the browser.
 
 
 ## License

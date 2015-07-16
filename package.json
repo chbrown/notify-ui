@@ -1,16 +1,15 @@
 {
-  "name": "flash-client",
-  "description": "Client-side helper for displaying flash messages",
+  "name": "notify-ui",
+  "description": "Notifications library for the browser",
   "keywords": [
     "browser",
     "dom",
-    "flash",
-    "angular"
+    "notifications"
   ],
   "version": "0.1.1",
-  "homepage": "https://github.com/chbrown/flash-client",
-  "repository": "git://github.com/chbrown/flash-client.git",
-  "bugs": "https://github.com/chbrown/flash-client/issues",
+  "homepage": "https://github.com/chbrown/notify-ui",
+  "repository": "git://github.com/chbrown/notify-ui.git",
+  "bugs": "https://github.com/chbrown/notify-ui/issues",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT"
 }

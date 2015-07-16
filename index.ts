@@ -1,80 +1,96 @@
 /*jslint browser: true */
 
-export class Flash {
-  private _cached_container: HTMLElement;
-  private children: HTMLElement[] = [];
+export class Notification {
+  protected _message: string;
+  protected _element: HTMLElement;
+  protected _parentNode: Node;
 
-  constructor(public options = {id: 'flash', className: 'flash'}) { }
+  constructor(message: string, className = 'notification') {
+    this._element = document.createElement('div');
+    this._element.className = className;
+    this.message = message;
+  }
 
-  get container() {
-    if (!this._cached_container) {
-      // try to find existing flash container
-      this._cached_container = document.getElementById(this.options.id);
-      if (!this._cached_container) {
-        // create new [id=flash] element and attach it to the document
-        this._cached_container = document.createElement('div');
-        this._cached_container.setAttribute('class', this.options.className);
-        this._cached_container.setAttribute('id', this.options.id);
-        // insert it at the top of the body
-        document.body.insertBefore(this._cached_container, document.body.firstChild);
-      }
+  set message(newMessage: string) {
+    if (this._message !== newMessage) {
+      this._message = this._element.textContent = newMessage;
     }
-    return this._cached_container;
   }
 
-  addMessage(message: string, duration: number = 3000): HTMLElement {
-    var child = document.createElement('span');
-    child.textContent = message;
-    this.container.appendChild(child);
-    this.children.push(child);
-    if (duration) {
-      setTimeout(() => { this.removeChild(child) }, duration);
+  appendTo(parentNode: Node) {
+    this._parentNode = parentNode;
+    this._parentNode.appendChild(this._element);
+  }
+
+  remove() {
+    if (this._parentNode) {
+      this._parentNode.removeChild(this._element);
     }
-    return child;
-  }
-
-  removeChild(child: HTMLElement) {
-    this.container.removeChild(child);
-    var index = this.children.indexOf(child);
-    this.children.splice(index, 1);
-  }
-
-  removeAllChildren() {
-    this.children.forEach(child => this.container.removeChild(child));
-    this.children.length = 0;
   }
 }
 
-if (typeof window['angular'] !== 'undefined') {
-  /**
-  Inject $flash and use like:
+export class NotifyUI {
+  private _container: HTMLElement;
+  constructor(protected id: string,
+              protected className = 'notification-container') { }
 
-      $flash('OMG it burns!', 5000)
+  static get singleton(): NotifyUI {
+    return new NotifyUI('NotifyUI_container');
+  }
 
-  or
+  get container(): HTMLElement {
+    if (!this._container) {
+      // try to find existing flash container
+      this._container = document.getElementById(this.id);
+      if (this._container === null) {
+        // create new element
+        this._container = document.createElement('div');
+        this._container.id = this.id;
+        this._container.className = this.className;
+      }
+    }
+    // if the container has been detached from the document, it might still
+    // have parentNode set if it was detached along with its parent.
+    // TODO: benchmark this. Is Node.compareDocumentPosition() faster?
+    //                       Or maybe parentNode recursion?
+    //                       Or maybe baseURI === ''?
+    if (!document.body.contains(this._container)) {
+      // insert it at the top of the body
+      document.body.insertBefore(this._container, document.body.firstChild);
+    }
+    return this._container;
+  }
 
-      $flash(asyncResultPromise)
-  */
-  window['angular'].module('flash-client', []).service('$flash', ['$q', function($q) {
-    /**
-    value can be a string or a promise
+  add(message: string, duration: number = 3000): Notification {
+    var notification = new Notification(message);
+    notification.appendTo(this.container);
+    if (duration) {
+      setTimeout(() => {
+        notification.remove();
+      }, duration);
+    }
+    return notification;
+  }
+  static add(message: string, duration: number = 3000): Notification {
+    return NotifyUI.singleton.add(message, duration);
+  }
 
-    default to a 3 second timeout, but allow permanent flashes by setting duration = null
-    */
-    var flash = new Flash();
-    return function(value, duration: number = 3000) {
-      var flash_child = flash.addMessage('...');
-      // for some reason, .finally() doesn't get the promise's value,
-      // so we have to use .then(a, a)
-      var done = function(result) {
-        flash_child.textContent = result.toString();
-        // if duration is falsey (e.g., null or 0), leave the message permanently
-        if (duration) {
-          setTimeout(() => flash.removeChild(flash_child), duration);
-        }
-      };
-      // wrap value with .when() to support both strings and promises of strings
-      $q.when(value).then(done, done);
-    };
-  }]);
+  addPromise(promise: any, duration: number = 3000): Notification {
+    var notification = new Notification('...');
+    notification.appendTo(this.container);
+    function callback(result) {
+      notification.message = result;
+      if (duration) {
+        setTimeout(() => {
+          notification.remove();
+        }, duration);
+      }
+      return result;
+    }
+    promise.then(callback, callback);
+    return notification;
+  }
+  static addPromise(promise: any, duration: number = 3000): Notification {
+    return NotifyUI.singleton.addPromise(promise, duration);
+  }
 }

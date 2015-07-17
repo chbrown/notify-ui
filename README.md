@@ -2,6 +2,8 @@
 
 Notifications library for the browser.
 
+* [Demo](https://rawgit.com/chbrown/notify-ui/master/demo/index.html)
+
 
 ## License
 

@@ -35,7 +35,10 @@ var NotifyUI = (function () {
     }
     Object.defineProperty(NotifyUI, "singleton", {
         get: function () {
-            return new NotifyUI('NotifyUI_container');
+            if (NotifyUI._singleton === undefined) {
+                NotifyUI._singleton = new NotifyUI('NotifyUI_container');
+            }
+            return NotifyUI._singleton;
         },
         enumerable: true,
         configurable: true
@@ -81,9 +84,10 @@ var NotifyUI = (function () {
         if (duration === void 0) { duration = 3000; }
         return NotifyUI.singleton.add(message, duration);
     };
-    NotifyUI.prototype.addPromise = function (promise, duration) {
+    NotifyUI.prototype.addPromise = function (promise, initial_message, duration) {
+        if (initial_message === void 0) { initial_message = '...'; }
         if (duration === void 0) { duration = 3000; }
-        var notification = new Notification('...');
+        var notification = new Notification(initial_message);
         notification.appendTo(this.container);
         function callback(result) {
             notification.message = result;
@@ -97,9 +101,10 @@ var NotifyUI = (function () {
         promise.then(callback, callback);
         return notification;
     };
-    NotifyUI.addPromise = function (promise, duration) {
+    NotifyUI.addPromise = function (promise, initial_message, duration) {
+        if (initial_message === void 0) { initial_message = '...'; }
         if (duration === void 0) { duration = 3000; }
-        return NotifyUI.singleton.addPromise(promise, duration);
+        return NotifyUI.singleton.addPromise(promise, initial_message, duration);
     };
     return NotifyUI;
 })();

@@ -34,8 +34,12 @@ export class NotifyUI {
   constructor(protected id: string,
               protected className = 'notification-container') { }
 
+  private static _singleton: NotifyUI;
   static get singleton(): NotifyUI {
-    return new NotifyUI('NotifyUI_container');
+    if (NotifyUI._singleton === undefined) {
+      NotifyUI._singleton = new NotifyUI('NotifyUI_container');
+    }
+    return NotifyUI._singleton;
   }
 
   get container(): HTMLElement {
@@ -75,8 +79,10 @@ export class NotifyUI {
     return NotifyUI.singleton.add(message, duration);
   }
 
-  addPromise(promise: any, duration: number = 3000): Notification {
-    var notification = new Notification('...');
+  addPromise(promise: any,
+             initial_message: string = '...',
+             duration: number = 3000): Notification {
+    var notification = new Notification(initial_message);
     notification.appendTo(this.container);
     function callback(result) {
       notification.message = result;
@@ -90,7 +96,9 @@ export class NotifyUI {
     promise.then(callback, callback);
     return notification;
   }
-  static addPromise(promise: any, duration: number = 3000): Notification {
-    return NotifyUI.singleton.addPromise(promise, duration);
+  static addPromise(promise: any,
+                    initial_message: string = '...',
+                    duration: number = 3000): Notification {
+    return NotifyUI.singleton.addPromise(promise, initial_message, duration);
   }
 }

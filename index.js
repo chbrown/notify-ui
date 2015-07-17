@@ -46,7 +46,7 @@ var NotifyUI = (function () {
     Object.defineProperty(NotifyUI.prototype, "container", {
         get: function () {
             if (!this._container) {
-                // try to find existing flash container
+                // try to find existing container
                 this._container = document.getElementById(this.id);
                 if (this._container === null) {
                     // create new element

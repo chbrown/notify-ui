@@ -94,7 +94,7 @@ app.controller('ctrl', function($scope, $http) {
     var promise = $http.get(url, {transformResponse: angular.identity}).then(function(res) {
       return 'Retrieved ' + res.data.length + ' characters from ' + url;
     });
-    NotifyUI.addPromise(promise, 5000);
+    NotifyUI.addPromise(promise, 'Requesting ' + url + ' ...', 5000);
   };
 
 });

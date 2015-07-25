@@ -11,5 +11,8 @@
   "repository": "git://github.com/chbrown/notify-ui.git",
   "bugs": "https://github.com/chbrown/notify-ui/issues",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "*"
+  }
 }

@@ -1,4 +1,4 @@
-/*jslint browser: true */
+//// export module notifyui {
 
 export class Notification {
   protected _message: string;
@@ -102,3 +102,5 @@ export class NotifyUI {
     return NotifyUI.singleton.addPromise(promise, initial_message, duration);
   }
 }
+
+//// }

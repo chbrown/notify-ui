@@ -1,5 +1,3 @@
-//// export module notifyui {
-
 export class Notification {
   protected _message: string;
   protected _element: HTMLElement;
@@ -102,5 +100,3 @@ export class NotifyUI {
     return NotifyUI.singleton.addPromise(promise, initial_message, duration);
   }
 }
-
-//// }

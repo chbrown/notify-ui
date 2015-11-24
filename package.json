@@ -8,11 +8,14 @@
   ],
   "version": "0.1.4",
   "homepage": "https://github.com/chbrown/notify-ui",
-  "repository": "git://github.com/chbrown/notify-ui.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chbrown/notify-ui.git"
+  },
   "bugs": "https://github.com/chbrown/notify-ui/issues",
   "author": "Christopher Brown <io@henrian.com> (http://henrian.com)",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "*"
+    "typescript": "next"
   }
 }

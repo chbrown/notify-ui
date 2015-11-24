@@ -1,4 +1,3 @@
-//// export module notify-ui {
 var Notification = (function () {
     function Notification(message, className) {
         if (className === void 0) { className = 'notification'; }
@@ -109,4 +108,3 @@ var NotifyUI = (function () {
     return NotifyUI;
 })();
 exports.NotifyUI = NotifyUI;
-//// }

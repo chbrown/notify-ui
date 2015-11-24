@@ -1,1 +1,4 @@
 demo/
+index.ts
+Makefile
+tsconfig.json

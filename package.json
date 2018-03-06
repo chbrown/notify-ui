@@ -6,7 +6,7 @@
     "dom",
     "notifications"
   ],
-  "version": "0.1.5",
+  "version": "0.2.0",
   "homepage": "https://github.com/chbrown/notify-ui",
   "repository": "git://github.com/chbrown/notify-ui.git",
   "bugs": "https://github.com/chbrown/notify-ui/issues",

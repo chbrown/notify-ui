@@ -1,4 +1,4 @@
+*.ts
+!*.d.ts
 demo/
-index.ts
-Makefile
 tsconfig.json

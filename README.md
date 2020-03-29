@@ -4,7 +4,7 @@
 
 Notifications library for the browser.
 
-* [Demo](https://rawgit.com/chbrown/notify-ui/master/demo/index.html)
+* [Demo](https://chbrown.github.io/notify-ui/demo/index.html)
 
 
 ## License
